@@ -45,7 +45,7 @@ const Allfood = () => {
     return (
         <div className='w-4/5 grid grid-cols-1 md:grid-cold-2 lg:grid-cols-3 mx-auto my-20 gap-10'>
             {
-                foods.map(food => (
+                foods.map((food,index) => (
                     <div className="card bg-gold shadow-xl p-4">
                         <figure>
                             <img
@@ -55,7 +55,7 @@ const Allfood = () => {
                         </figure>
                         <div className="card-body">
                             <h2 className="card-title">
-                                {food.food_name}
+                                {food.food_name}{index}
                                 <div className="badge badge-secondary">{food.price}</div>
                             </h2>
                             <p>Food Category: {food.food_category}</p>

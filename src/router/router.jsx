@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import Addfood from "../pages/Addfood";
 import Allfood from "../pages/Allfood";
 import Singlefood from "../pages/Singlefood";
+import Gallery from "../pages/Gallery";
 
 const router = createBrowserRouter([
     {
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
             {
                 path:"singlefood/:id",
                 element:<Singlefood/>,
-                loader:()=> fetch('http://localhost:3000/foods')
+                loader:({params})=> fetch(`http://localhost:3000/foods/${params.id}`)
+            },
+            {
+                path:"gallery",
+                element:<Gallery/>,
             }
         ]
     },
