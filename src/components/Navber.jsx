@@ -1,6 +1,13 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Navber = () => {
+    const links = <>
+        <NavLink to='/'><li><a className='text-white font-bold text-xl'>Home</a></li></NavLink>
+        <NavLink to='/allfood'> <li><a className='text-white font-bold text-xl'>All Foods</a></li></NavLink>
+        <li><a className='text-white font-bold text-xl'>Gallery</a></li>
+        <li><a className='text-white font-bold text-xl'>Login</a></li>
+    </>
     return (
         <div className="navbar fixed top-0 bg-none p-5 z-50">
             <div className="navbar-start">
@@ -22,20 +29,14 @@ const Navber = () => {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a>Home</a></li>
-                        <li><a>All Foods</a></li>
-                        <li><a>Gallery</a></li>
-                        <li><a>Login</a></li>
+                        {links}
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a className='text-white font-bold text-xl'>Home</a></li>
-                    <li><a className='text-white font-bold text-xl'>All Foods</a></li>
-                    <li><a className='text-white font-bold text-xl'>Gallery</a></li>
-                    <li><a className='text-white font-bold text-xl'>Login</a></li>
+                    {links}
                 </ul>
             </div>
             <div className="navbar-end">

@@ -237,7 +237,7 @@ const Banner = () => {
             </motion.h1>
             <motion.img 
             src='https://i.ibb.co.com/hD3kpCS/Screenshot-2024-12-22-132410.png'
-              className="text-4xl md:text-6xl font-extrabold mb-4 fixed top-0"
+              className="text-4xl md:text-6xl font-extrabold mb-4 absolute top-0 right-20"
               initial={{ opacity: 0, x:2000 }}
               animate={{ opacity: 1, x: 1000 }}
               transition={{ duration: 0.7, delay: 0.3 }}
