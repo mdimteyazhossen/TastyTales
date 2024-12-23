@@ -8,6 +8,14 @@ const Navber = () => {
         <NavLink to='/gallery'><li><a className='text-white font-bold text-xl'>Gallery</a></li></NavLink>
         <li><a className='text-white font-bold text-xl'>Login</a></li>
     </>
+    const profileLinks = <>
+        <NavLink to='/addfood'><li><a>Add Food</a></li></NavLink>
+        <li><a>Item 2</a></li>
+        <li><a>Item 1</a></li>
+    </>
+    const headLink = <>
+    <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a></NavLink>
+    </>
     return (
         <div className="navbar fixed top-0 bg-none p-5 z-50">
             <div className="navbar-start">
@@ -32,7 +40,7 @@ const Navber = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a>
+                {headLink}
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -40,10 +48,17 @@ const Navber = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <div className="avatar">
-                    <div className="ring-primary ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
-                        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                <div className="dropdown dropdown-bottom dropdown-end">
+                    <div tabIndex={0} role="button" className=" m-1">
+                        <div className="avatar">
+                            <div className="ring-primary ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                            </div>
+                        </div>
                     </div>
+                    <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                        {profileLinks}
+                    </ul>
                 </div>
                 <a className="btn">Button</a>
             </div>
