@@ -2,7 +2,10 @@ import Lottie from 'lottie-react'
 import React, { useState } from 'react'
 import addproductAnimation from './../assets/lottie/uy66j02Xou.json'
 const Addfood = () => {
+
+    const email = "mahi@gmail.com"
     const handleFoodAdd = e => {
+        // const email = "abc@gmail.com"
         e.preventDefault();
         const fromData = new FormData(e.target);
         const initialData = Object.fromEntries(fromData.entries());
@@ -13,18 +16,19 @@ const Addfood = () => {
             ingredients: ingredients ? ingredients.split('\n').map(item => item.trim()) : [],
             making_procedure: making_procedure ? making_procedure.split('\n').map(item => item.trim()) : [],
         };
+        newfood.email = email;
         fetch('http://localhost:3000/foods', {
             method: 'POST',
-            headers:{
-                'content-type' : 'application/json'
+            headers: {
+                'content-type': 'application/json'
             },
             body: JSON.stringify(newfood)
         })
-        .then(res => res.json())
-        .then(data =>{
-            console.log(data);
-        })
-        console.log(newfood)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+
     }
     return (
         <div className="hero bg-base-200 lg:w-4/5 mx-auto my-20">
@@ -44,6 +48,7 @@ const Addfood = () => {
                             <label className="label">
                                 <span className="label-text lg:text-xl font-bold text-white">Email: imteyazhossen13711@gmail.com</span>
                             </label>
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required value={email} disabled />
                         </div>
                         <div className="form-control">
                             <label className="label">

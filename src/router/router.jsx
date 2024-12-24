@@ -7,6 +7,7 @@ import Addfood from "../pages/Addfood";
 import Allfood from "../pages/Allfood";
 import Singlefood from "../pages/Singlefood";
 import Gallery from "../pages/Gallery";
+import Myfoodpage from "../pages/Myfoodpage";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path:"gallery",
                 element:<Gallery/>,
+            },
+            {
+                path:"myfoods",
+                element:<Myfoodpage/>,
             }
         ]
     },

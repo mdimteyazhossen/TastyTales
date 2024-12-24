@@ -10,7 +10,7 @@ const Navber = () => {
     </>
     const profileLinks = <>
         <NavLink to='/addfood'><li><a>Add Food</a></li></NavLink>
-        <li><a>Item 2</a></li>
+        <NavLink to='/myfoods'><li><a>My Foods</a></li></NavLink>
         <li><a>Item 1</a></li>
     </>
     const headLink = <>
