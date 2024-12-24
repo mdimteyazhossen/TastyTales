@@ -1,4 +1,3 @@
-import { div } from 'framer-motion/client';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Update from '../components/Update';
@@ -6,9 +5,6 @@ import Update from '../components/Update';
 const Myfoodpage = () => {
     const email = 'mahi@gmail.com';
     const [myFoods, setMyFoods] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
     useEffect(() => {
         fetch(`http://localhost:3000/AddingFoods?email=${email}`)
             .then(res => res.json())
@@ -61,10 +57,7 @@ const Myfoodpage = () => {
                                 </th>
                                 <th>
                                     <div>
-                                        <button className="btn" onClick={openModal}>Open Update Modal</button>
-
-                                        {/* Pass the modal state down to the Update component */}
-                                        <Update isModalOpen={isModalOpen} closeModal={closeModal} />
+                                        <Link to={`/update/${food._id}`}><button className='btn'>Update</button></Link>
                                     </div>
                                 </th>
                             </tr>

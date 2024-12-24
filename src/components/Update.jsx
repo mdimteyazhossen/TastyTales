@@ -1,26 +1,121 @@
-import React from 'react';
+import React from 'react'
+import { useLoaderData } from 'react-router-dom';
 
-const Update = ({ isModalOpen, closeModal }) => {
+const Update = () => {
+    const data = useLoaderData();
+    console.log(data)
+    const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity } = data;
+    const handleUpdate = e => {
+        // const email = "abc@gmail.com"
+        e.preventDefault();
+        const fromData = new FormData(e.target);
+        const initialData = Object.fromEntries(fromData.entries());
+        // console.log(initialData);
+        const { ingredients, making_procedure, ...newfood } = initialData;
+        // console.log(newJob)
+        newfood.description = {
+            ingredients: ingredients ? ingredients.split('\n').map(item => item.trim()) : [],
+            making_procedure: making_procedure ? making_procedure.split('\n').map(item => item.trim()) : [],
+        };
+        newfood.email = email;
+        console.log(newfood)
+        fetch(`http://localhost:3000/foods/${_id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newfood)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+    }
     return (
-        <div className='bg-gold'>
-            {/* Modal dialog */}
-            <dialog id="my_modal_3" className="modal fixed inset-0 w-full h-full m-0 p-0 bg-gold bg-opacity-35 backdrop-blur-lg" open={isModalOpen}>
-                <div className="modal-box w-full h-full backdrop-blur-lg">
-                    <form method="dialog">
-                        {/* Close button */}
-                        <button
-                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                            onClick={closeModal}
-                        >
-                            ✕
-                        </button>
+        <div className="hero bg-base-200 lg:w-4/5 mx-auto my-20">
+            <div className=" flex-col lg:flex-row-reverse">
+                <div className="card bg-gold w-full  shrink-0 shadow-2xl">
+                    <form onSubmit={handleUpdate} className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text lg:text-xl font-bold text-white">Name: Md Imteyaz Hossen</span>
+                            </label>
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text lg:text-xl font-bold text-white">Email: imteyazhossen13711@gmail.com</span>
+                            </label>
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required disabled />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Name: </span>
+                            </label>
+                            <input name='food_name' type="name" defaultValue={food_name} placeholder="food name" className="input input-bordered border-gold" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food ImageURL: </span>
+                            </label>
+                            <input name='food_image' defaultValue={food_image} type="name" placeholder="Image URL" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Category: </span>
+                            </label>
+                            <input name='food_category' defaultValue={food_category} type="name" placeholder="food category" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Quantity: </span>
+                            </label>
+                            <input name='quantity' defaultValue={quantity} type="number" placeholder="Food Quantity" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Price: </span>
+                            </label>
+                            <input name='price' defaultValue={price} type="number" placeholder="Price" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Origin: </span>
+                            </label>
+                            <input name='food_origin' defaultValue={food_origin} type="name" placeholder="Enter country name" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control lg:col-span-2">
+                            <h1>Decription:</h1>
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Ingredients: </span>
+                            </label>
+                            <textarea
+                                rows="3"
+                                placeholder="Write your message here..."
+                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                required
+                                name='ingredients'
+                                defaultValue={description.ingredients}
+                            ></textarea>
+                            <label className="label">
+                                <span className="label-text font-bold text-white"> Making Procedure: </span>
+                            </label>
+                            <textarea
+                                rows="3"
+                                placeholder="Write your message here..."
+                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                required
+                                name='making_procedure'
+                                defaultValue={description.making_procedure}
+                            ></textarea>
+                        </div>
+                        <div className="form-control mt-6 md:col-span-2 lg:col-span-2">
+                            <button className="btn bg-white text-gold text-xl font-bold">Update Food </button>
+                        </div>
                     </form>
-                    <h3 className="font-bold text-lg">Hello!</h3>
-                    <p className="py-4">Press ESC key or click on ✕ button to close</p>
                 </div>
-            </dialog>
+            </div>
         </div>
-    );
-};
+    )
+}
 
-export default Update;
+export default Update

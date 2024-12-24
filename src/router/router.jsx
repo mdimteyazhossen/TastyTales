@@ -8,6 +8,7 @@ import Allfood from "../pages/Allfood";
 import Singlefood from "../pages/Singlefood";
 import Gallery from "../pages/Gallery";
 import Myfoodpage from "../pages/Myfoodpage";
+import Update from "../components/Update";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
             {
                 path:"myfoods",
                 element:<Myfoodpage/>,
+            },
+            {
+                path:"update/:id",
+                element:<Update/>,
+                loader:({params})=> fetch(`http://localhost:3000/foods/${params.id}`)
             }
         ]
     },
