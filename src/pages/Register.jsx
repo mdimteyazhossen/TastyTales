@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import AuthContext from '../context/AuthContext/Authcontext';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     const { createUser } = useContext(AuthContext);
@@ -57,7 +58,8 @@ const Register = () => {
                             </label>
                             <input name='password' type="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                {/* <a href="#" className="label-text-alt link link-hover">Forgot password?</a> */}
+                                <Link to='/login'>Login</Link>
                             </label>
                         </div>
                         <div className="form-control mt-6">

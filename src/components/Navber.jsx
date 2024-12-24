@@ -3,7 +3,16 @@ import { NavLink } from 'react-router-dom'
 import AuthContext from '../context/AuthContext/Authcontext'
 
 const Navber = () => {
-    const{user}=useContext(AuthContext)
+    const{user, signOutUser}=useContext(AuthContext)
+    const handleSignOut = ()=>{
+        signOutUser()
+        .then(()=>{
+            console.log('successfwijoi')
+        })
+        .catch(error=>{
+            console.log('failed to sign out.')
+        })
+    }
     const links = <>
         <NavLink to='/'><li><a className='text-white font-bold text-xl'>Home</a></li></NavLink>
         <NavLink to='/allfood'> <li><a className='text-white font-bold text-xl'>All Foods</a></li></NavLink>
@@ -58,12 +67,12 @@ const Navber = () => {
                             </div>
                         </div>
                     </div>
-                    <ul>{user.email}</ul>
+                    <ul>{user?.email}</ul>
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         {profileLinks}
                     </ul>
                 </div>
-                <a className="btn">Button</a>
+                <a className="btn" onClick={handleSignOut}>Logout</a>
             </div>
         </div>
     )
