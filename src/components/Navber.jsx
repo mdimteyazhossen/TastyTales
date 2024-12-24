@@ -11,7 +11,7 @@ const Navber = () => {
     const profileLinks = <>
         <NavLink to='/addfood'><li><a>Add Food</a></li></NavLink>
         <NavLink to='/myfoods'><li><a>My Foods</a></li></NavLink>
-        <li><a>Item 1</a></li>
+        <NavLink to='/ordersfood'><li><a>My Orders</a></li></NavLink>
     </>
     const headLink = <>
     <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a></NavLink>

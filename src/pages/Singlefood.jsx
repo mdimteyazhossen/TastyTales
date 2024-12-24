@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 
 const Singlefood = () => {
   const data = useLoaderData();
@@ -102,7 +102,7 @@ const Singlefood = () => {
           <p>{price}</p>
           <p>{food_origin}</p>
           <p>{quantity}</p>
-          <button className="btn btn-primary">Purtue</button>
+          <Link to={`/foodpurchase/${_id}`}><button className="btn btn-primary">Purchase</button></Link>
         </div>
       </div>
     </div>
