@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import AuthContext from '../context/AuthContext/Authcontext'
 
 const Navber = () => {
+    const{user}=useContext(AuthContext)
     const links = <>
         <NavLink to='/'><li><a className='text-white font-bold text-xl'>Home</a></li></NavLink>
         <NavLink to='/allfood'> <li><a className='text-white font-bold text-xl'>All Foods</a></li></NavLink>
         <NavLink to='/gallery'><li><a className='text-white font-bold text-xl'>Gallery</a></li></NavLink>
-        <li><a className='text-white font-bold text-xl'>Login</a></li>
+        <NavLink to='/register'><li><a className='text-white font-bold text-xl'>Login</a></li></NavLink>
     </>
     const profileLinks = <>
         <NavLink to='/addfood'><li><a>Add Food</a></li></NavLink>
@@ -56,6 +58,7 @@ const Navber = () => {
                             </div>
                         </div>
                     </div>
+                    <ul>{user.email}</ul>
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         {profileLinks}
                     </ul>

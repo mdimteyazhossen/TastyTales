@@ -11,6 +11,8 @@ import Myfoodpage from "../pages/Myfoodpage";
 import Update from "../components/Update";
 import Foodpurchase from "../pages/Foodpurchase";
 import Myorders from "../pages/Myorders";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
             {
                 path:"gallery",
                 element:<Gallery/>,
+            },
+            {
+                path:"login",
+                element:<Login/>,
+            },
+            {
+                path:"register",
+                element:<Register/>,
             },
             {
                 path:"myfoods",
