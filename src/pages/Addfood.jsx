@@ -1,12 +1,36 @@
 import Lottie from 'lottie-react'
-import React from 'react'
+import React, { useState } from 'react'
 import addproductAnimation from './../assets/lottie/uy66j02Xou.json'
 const Addfood = () => {
+    const handleFoodAdd = e => {
+        e.preventDefault();
+        const fromData = new FormData(e.target);
+        const initialData = Object.fromEntries(fromData.entries());
+        // console.log(initialData);
+        const { ingredients, making_procedure, ...newfood } = initialData;
+        // console.log(newJob)
+        newfood.description = {
+            ingredients: ingredients ? ingredients.split('\n').map(item => item.trim()) : [],
+            making_procedure: making_procedure ? making_procedure.split('\n').map(item => item.trim()) : [],
+        };
+        fetch('http://localhost:3000/foods', {
+            method: 'POST',
+            headers:{
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(newfood)
+        })
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data);
+        })
+        console.log(newfood)
+    }
     return (
         <div className="hero bg-base-200 lg:w-4/5 mx-auto my-20">
             <div className=" flex-col lg:flex-row-reverse">
                 <div className="card bg-gold w-full  shrink-0 shadow-2xl">
-                    <form className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
+                    <form onSubmit={handleFoodAdd} className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
 
                         <div className=" row-span-1 md:row-span-3 lg:row-span-4">
                             <Lottie animationData={addproductAnimation}></Lottie>
@@ -25,34 +49,59 @@ const Addfood = () => {
                             <label className="label">
                                 <span className="label-text font-bold text-white">Food Name: </span>
                             </label>
-                            <input type="name" placeholder="email" className="input input-bordered border-gold" required />
+                            <input name='food_name' type="name" placeholder="food name" className="input input-bordered border-gold" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text font-bold text-white">Food ImageURL: </span>
                             </label>
-                            <input type="name" placeholder="Image URL" className="input input-bordered" required />
+                            <input name='food_image' type="name" placeholder="Image URL" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text font-bold text-white">Quantity: </span>
+                                <span className="label-text font-bold text-white">Food Category: </span>
                             </label>
-                            <input type="name" placeholder="Food Quantity" className="input input-bordered" required />
+                            <input name='food_category' type="name" placeholder="food category" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Quantity: </span>
+                            </label>
+                            <input name='quantity' type="number" placeholder="Food Quantity" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text font-bold text-white">Food Price: </span>
                             </label>
-                            <input type="number" placeholder="Price" className="input input-bordered" required />
+                            <input name='price' type="number" placeholder="Price" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-bold text-white">Food Origin: </span>
+                            </label>
+                            <input name='food_origin' type="name" placeholder="Enter country name" className="input input-bordered" required />
                         </div>
                         <div className="form-control lg:col-span-2">
+                            <h1>Decription:</h1>
                             <label className="label">
-                                <span className="label-text font-bold text-white">Food Description: </span>
+                                <span className="label-text font-bold text-white">Ingredients: </span>
                             </label>
                             <textarea
                                 rows="3"
                                 placeholder="Write your message here..."
-                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                required
+                                name='ingredients'
+                            ></textarea>
+                            <label className="label">
+                                <span className="label-text font-bold text-white"> Making Procedure: </span>
+                            </label>
+                            <textarea
+                                rows="3"
+                                placeholder="Write your message here..."
+                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                                required
+                                name='making_procedure'
                             ></textarea>
                         </div>
                         <div className="form-control mt-6 md:col-span-2 lg:col-span-2">
