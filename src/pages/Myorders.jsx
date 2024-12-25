@@ -44,8 +44,8 @@ const Myorders = () => {
         });
     }
     return (
-            <div className='my-20'>
-                {orders.map((order, index) => (
+            <div className='my-20 lg:w-[90%] mx-auto pt-10'>
+                {/* {orders.map((order, index) => (
                     <div className="card card-side bg-base-100 shadow-xl" key={index}>
                         <figure>
                             <img
@@ -59,6 +59,26 @@ const Myorders = () => {
                             <p>{order.currentDateTime}</p>
                             <div className="card-actions justify-end">
                                 <button onClick={() => handleDelete(order._id)} className="btn bg-red-600">X</button>
+                            </div>
+                        </div>
+                    </div>
+                ))} */}
+                <h1 className='text-3xl font-bold text-gray-600'>Your Order:</h1>
+                {orders.map((order, index) => (
+                    <div key={order._id} className=' p-2 lg:p-20'>
+                        <div className="card bg-white lg:card-side  shadow-xl p-5 border-gray-600 border-4">
+                            <figure>
+                                <img
+                                    src={order.food_image}
+                                    alt="Album" className='w-[100%] md:w-[50%] lg:w-[100%] h-[250px] mx-auto rounded-xl' />
+                            </figure>
+                            <div className="card-body text-gray-600">
+                                <h2 className="card-title">{order.food_name}</h2>
+                                <p>Price: <span>{order.price}$ per piece</span></p>
+                                <p>Buying Time: <span>{order.currentDateTime}</span></p>
+                            </div>
+                            <div className='items-center my-auto lg:grid gap-2 lg:gap-5 mx-auto'>
+                            <button onClick={() => handleDelete(order._id)} className="btn bg-red-600">X</button>
                             </div>
                         </div>
                     </div>

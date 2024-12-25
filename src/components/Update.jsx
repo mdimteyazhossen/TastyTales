@@ -5,7 +5,7 @@ import AuthContext from '../context/AuthContext/Authcontext';
 const Update = () => {
     const data = useLoaderData();
     // console.log(data)
-    const {user}=useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity } = data;
     const handleUpdate = e => {
         // const email = "abc@gmail.com"
@@ -34,9 +34,23 @@ const Update = () => {
             })
     }
     return (
-        <div className="hero bg-base-200 lg:w-4/5 mx-auto my-20">
+        <div className=" bg-base-200 mb-10">
             <div className=" flex-col lg:flex-row-reverse">
-                <div className="card bg-gold w-full  shrink-0 shadow-2xl">
+                <div className="relative mb-5 h-[550px] md:h-[450px] lg:h-[600px]">
+                    <div
+                        className="absolute inset-0 w-full h-full bg-cover bg-center"
+                        style={{
+                            backgroundImage: "url('https://i.ibb.co.com/JKT1S8F/depositphotos-312096012-stock-photo-render-wooden-style-cafe-restaurant.webp')",
+                        }}
+                    ></div>
+                    <div className="relative z-10 text-white flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                        <div className="text-center">
+                            <h1 className="text-xl md:text-2xl lg:text-4xl font-bold">Update Food Details</h1>
+                            <p className="mt-4 lg:text-lg">Modify or update the details of your menu items to keep your offerings fresh and accurate. Whether it's a new price, description, or image, updating is easy. Make sure your customers always have the latest information about your delicious dishes!</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="card bg-gray-600   shrink-0 shadow-2xl w-4/5 mx-auto">
                     <form onSubmit={handleUpdate} className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
                         <div className="form-control">
                             <label className="label">
@@ -112,7 +126,7 @@ const Update = () => {
                             ></textarea>
                         </div>
                         <div className="form-control mt-6 md:col-span-2 lg:col-span-2">
-                            <button className="btn bg-white text-gold text-xl font-bold">Update Food </button>
+                            <button className="btn bg-white text-gray-600 text-xl font-bold">Update Food </button>
                         </div>
                     </form>
                 </div>

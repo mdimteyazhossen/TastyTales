@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
     return (
         <>
-            <footer className="footer bg-[#CBB26A] text-base-content p-10">
+            <footer className="footer bg-gray-600 text-base-content p-10">
                 <nav>
                     <h6 className="footer-title text-white">Services</h6>
                     <a className="link link-hover text-white">Branding</a>
@@ -25,7 +25,7 @@ const Footer = () => {
                     <a className="link link-hover text-white">Cookie policy</a>
                 </nav>
             </footer>
-            <footer className="footer bg-[#CBB26A] text-base-content border-base-300 border-t px-10 py-4">
+            <footer className="footer bg-gray-600 text-base-content border-base-300 border-t px-10 py-4">
                 <aside className="grid-flow-col items-center">
                     <img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-20 rounded-full' />
                     <p className='text-2xl font-bold text-white'>

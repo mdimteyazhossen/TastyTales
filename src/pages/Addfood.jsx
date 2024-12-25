@@ -17,6 +17,7 @@ const Addfood = () => {
             making_procedure: making_procedure ? making_procedure.split('\n').map(item => item.trim()) : [],
         };
         newfood.email = user?.email;
+        newfood.purchase=0;
         fetch('http://localhost:3000/foods', {
             method: 'POST',
             headers: {
@@ -31,9 +32,28 @@ const Addfood = () => {
 
     }
     return (
-        <div className="hero bg-base-200 lg:w-4/5 mx-auto my-20">
+        <div className="hero bg-base-200 mx-auto mb-10">
             <div className=" flex-col lg:flex-row-reverse">
-                <div className="card bg-gold w-full  shrink-0 shadow-2xl">
+                <div className="relative my-20 mx-auto w-4/5 h-[450px] rounded-3xl overflow-hidden">
+                    {/* Background Image */}
+                    <div
+                        className="absolute inset-0 w-full h-full bg-cover bg-center"
+                        style={{
+                            backgroundImage: "url('https://i.ibb.co.com/gtz4Sg1/pexels-bemistermister-3434523.jpg')",
+                        }}
+                    ></div>
+
+                    {/* Title and Description Overlay */}
+                    <div className="relative z-10 text-center text-white px-6 py-12 bg-black bg-opacity-40">
+                        <h1 className="text-3xl font-bold mb-4">Taste the Best of Our Culinary Creations</h1>
+                        <p className="text-lg">
+                            Indulge in a diverse range of flavors, from hearty mains to decadent desserts. Discover dishes that bring together the finest ingredients for an unforgettable dining experience.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div className="card lg:w-4/5 mx-auto bg-gray-600 w-full  shrink-0 shadow-2xl">
                     <form onSubmit={handleFoodAdd} className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
 
                         <div className=" row-span-1 md:row-span-3 lg:row-span-4">
@@ -41,7 +61,7 @@ const Addfood = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text lg:text-xl font-bold text-white">Name: Md Imteyaz Hossen</span>
+                                <span className="label-text lg:text-xl font-bold text-white">Name:</span>
                             </label>
                             <input type="name" placeholder="food name" className="input input-bordered border-gold" required value={user?.displayName} disabled />
                         </div>
@@ -88,7 +108,7 @@ const Addfood = () => {
                             <input name='food_origin' type="name" placeholder="Enter country name" className="input input-bordered" required />
                         </div>
                         <div className="form-control lg:col-span-2">
-                            <h1>Decription:</h1>
+                            <h1 className='text-white font-bold'>Decription:</h1>
                             <label className="label">
                                 <span className="label-text font-bold text-white">Ingredients: </span>
                             </label>
@@ -111,12 +131,12 @@ const Addfood = () => {
                             ></textarea>
                         </div>
                         <div className="form-control mt-6 md:col-span-2 lg:col-span-2">
-                            <button className="btn bg-white text-gold text-xl font-bold">Add Item </button>
+                            <button className="btn bg-white text-gray-600 text-xl font-bold">Add Item </button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

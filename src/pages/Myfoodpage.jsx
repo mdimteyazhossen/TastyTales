@@ -4,7 +4,7 @@ import Update from '../components/Update';
 import AuthContext from '../context/AuthContext/Authcontext';
 
 const Myfoodpage = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     // const email = 'mahi@gmail.com';
     const [myFoods, setMyFoods] = useState([]);
     useEffect(() => {
@@ -19,12 +19,12 @@ const Myfoodpage = () => {
                 {/* head */}
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Food Name</th>
-                        <th>Price</th>
-                        <th>Food origin</th>
-                        <th>Details</th>
-                        <th>Update</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Image</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Food Name</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Price</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Food origin</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Details</th>
+                        <th className='lg:text-xl font-bold text-gray text-center'>Update</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@ const Myfoodpage = () => {
                         myFoods.map(food => (
                             <tr>
                                 <td>
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex items-center justify-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle h-12 w-12">
                                                 <img
@@ -44,30 +44,27 @@ const Myfoodpage = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <div className="font-bold">{food.food_name}</div>
-                                        </div>
+                                    <div className="flex items-center gap-3 justify-center">
+                                        <div className="font-bold">{food.food_name}</div>
                                     </div>
                                 </td>
                                 <td>
-                                    <p>{food.price} $ per plate</p>
+                                    <p className='text-center'>{food.price} $ per plate</p>
                                 </td>
-                                <td>{food.food_origin}</td>
-                                <th>
-                                    <Link to={`/singlefood/${food._id}`}><button className='btn'>See Details</button></Link>
-                                </th>
-                                <th>
-                                    <div>
-                                        <Link to={`/update/${food._id}`}><button className='btn'>Update</button></Link>
-                                    </div>
-                                </th>
+                                <td className='text-center'>{food.food_origin}</td>
+                                <td className=''>
+                                    <Link to={`/singlefood/${food._id}`}><button className='btn bg-gray-600 text-white'>See Details</button></Link>
+                                </td>
+                                <td className=''>
+                                        <Link to={`/update/${food._id}`}><button className='btn bg-gray-600 text-white'>Update</button></Link>
+                
+                                </td>
                             </tr>
                         ))
                         :
                         (
                             <tr>
-                                <td colSpan="5" className="text-center">
+                                <td colSpan="6" className="text-center lg:text-2xl font-bold">
                                     No food items available
                                 </td>
                             </tr>
@@ -76,12 +73,12 @@ const Myfoodpage = () => {
                 {/* foot */}
                 <tfoot>
                     <tr>
-                        <th>Image</th>
-                        <th>Food Name</th>
-                        <th>Price</th>
-                        <th>Food origin</th>
-                        <th>Details</th>
-                        <th>Update</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center'>Image</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center'>Food Name</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center'>Price</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center'>Food origin</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center' >Details</th>
+                        <th className='lg:text-xl font-bold text-gray-600 text-center'>Update</th>
                     </tr>
                 </tfoot>
             </table>
