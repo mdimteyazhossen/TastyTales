@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLoaderData } from 'react-router-dom';
+import AuthContext from '../context/AuthContext/Authcontext';
 
 const Update = () => {
     const data = useLoaderData();
-    console.log(data)
+    // console.log(data)
+    const {user}=useContext(AuthContext);
     const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity } = data;
     const handleUpdate = e => {
         // const email = "abc@gmail.com"
@@ -38,14 +40,15 @@ const Update = () => {
                     <form onSubmit={handleUpdate} className="card-body grid grid-cols-1 md:grid-cols-2 mlg:grid-cols-2 gap-10">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text lg:text-xl font-bold text-white">Name: Md Imteyaz Hossen</span>
+                                <span className="label-text lg:text-xl font-bold text-white">Name:</span>
                             </label>
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required disabled value={user?.displayName} />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text lg:text-xl font-bold text-white">Email: imteyazhossen13711@gmail.com</span>
+                                <span className="label-text lg:text-xl font-bold text-white">Email:</span>
                             </label>
-                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required disabled />
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required disabled value={email} />
                         </div>
                         <div className="form-control">
                             <label className="label">

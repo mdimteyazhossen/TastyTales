@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AuthContext from '../context/AuthContext/Authcontext';
 
 const Login = () => {
-    const {SignInUser} = useContext(AuthContext);
+    const {SignInUser,signInWithgoogle} = useContext(AuthContext);
     const handleLogin = e =>{
         e.preventDefault();
         const form = e.target;
@@ -12,6 +12,15 @@ const Login = () => {
         SignInUser(email,password)
         .then(result =>{
             console.log('sign in', result.user)
+        })
+        .catch(err=>{
+            console.log(err.message)
+        })
+    }
+    const handlegoogle = ()=>{
+        signInWithgoogle()
+        .then(res=>{
+            console.log(res.user)
         })
         .catch(err=>{
             console.log(err.message)
@@ -46,6 +55,9 @@ const Login = () => {
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
+                        </div>
+                        <div className="form-control mt-6">
+                            <button onClick={handlegoogle} className="btn btn-primary">Google</button>
                         </div>
                     </form>
                 </div>

@@ -1,9 +1,9 @@
 import Lottie from 'lottie-react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import addproductAnimation from './../assets/lottie/uy66j02Xou.json'
+import AuthContext from '../context/AuthContext/Authcontext'
 const Addfood = () => {
-
-    const email = "mahi@gmail.com"
+    const { user } = useContext(AuthContext);
     const handleFoodAdd = e => {
         // const email = "abc@gmail.com"
         e.preventDefault();
@@ -16,7 +16,7 @@ const Addfood = () => {
             ingredients: ingredients ? ingredients.split('\n').map(item => item.trim()) : [],
             making_procedure: making_procedure ? making_procedure.split('\n').map(item => item.trim()) : [],
         };
-        newfood.email = email;
+        newfood.email = user?.email;
         fetch('http://localhost:3000/foods', {
             method: 'POST',
             headers: {
@@ -43,12 +43,13 @@ const Addfood = () => {
                             <label className="label">
                                 <span className="label-text lg:text-xl font-bold text-white">Name: Md Imteyaz Hossen</span>
                             </label>
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required value={user?.displayName} disabled />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text lg:text-xl font-bold text-white">Email: imteyazhossen13711@gmail.com</span>
+                                <span className="label-text lg:text-xl font-bold text-white">Email: </span>
                             </label>
-                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required value={email} disabled />
+                            <input type="name" placeholder="food name" className="input input-bordered border-gold" required value={user?.email} disabled />
                         </div>
                         <div className="form-control">
                             <label className="label">

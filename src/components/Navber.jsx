@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthContext from '../context/AuthContext/Authcontext'
 
 const Navber = () => {
-    const{user, signOutUser}=useContext(AuthContext)
-    const handleSignOut = ()=>{
+    const { user, signOutUser } = useContext(AuthContext)
+    const handleSignOut = () => {
         signOutUser()
-        .then(()=>{
-            console.log('successfwijoi')
-        })
-        .catch(error=>{
-            console.log('failed to sign out.')
-        })
+            .then(() => {
+                console.log('successfwijoi')
+            })
+            .catch(error => {
+                console.log('failed to sign out.')
+            })
     }
     const links = <>
         <NavLink to='/'><li><a className='text-white font-bold text-xl'>Home</a></li></NavLink>
@@ -25,10 +25,30 @@ const Navber = () => {
         <NavLink to='/ordersfood'><li><a>My Orders</a></li></NavLink>
     </>
     const headLink = <>
-    <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a></NavLink>
+        <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a></NavLink>
     </>
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    // Function to detect scroll event
+    const handleScroll = () => {
+        if (window.scrollY > 50) {
+            setIsScrolled(true);
+        } else {
+            setIsScrolled(false);
+        }
+    };
+
+    useEffect(() => {
+        // Listen for scroll events
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     return (
-        <div className="navbar fixed top-0 bg-none p-5 z-50">
+        <div className={`navbar fixed top-0 bg-none p-5 z-50 transition-all duration-300 ${isScrolled ? 'bg-gray-800' : 'bg-transparent'}`}>
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -63,11 +83,13 @@ const Navber = () => {
                     <div tabIndex={0} role="button" className=" m-1">
                         <div className="avatar">
                             <div className="ring-primary ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                <img src={user?.photoURL} />
                             </div>
                         </div>
                     </div>
-                    <ul>{user?.email}</ul>
+                    {/* <ul>{user?.email}</ul>
+                    <ul>{user?.displayName}</ul>
+                    <ul>{user?.photoURL}</ul> */}
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         {profileLinks}
                     </ul>

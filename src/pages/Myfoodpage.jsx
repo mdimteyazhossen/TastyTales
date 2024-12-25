@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Update from '../components/Update';
+import AuthContext from '../context/AuthContext/Authcontext';
 
 const Myfoodpage = () => {
-    const email = 'mahi@gmail.com';
+    const {user} = useContext(AuthContext);
+    // const email = 'mahi@gmail.com';
     const [myFoods, setMyFoods] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:3000/AddingFoods?email=${email}`)
+        fetch(`http://localhost:3000/AddingFoods?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setMyFoods(data))
     }, [])

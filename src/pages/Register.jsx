@@ -3,24 +3,46 @@ import AuthContext from '../context/AuthContext/Authcontext';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUser, setUser, user } = useContext(AuthContext);
     const handleRegister = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        // console.log(email, password)
+        const name = form.name.value;
+        const photo = form.photo.value;
+        console.log(email, password, name, photo)
         if (!/^(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(password)) {
             alert('Password must be at least 6 characters long, include an uppercase letter and a lowercase letter.')
             return;
         }
-        createUser(email,password)
-        .then(result =>{
-            console.log(result)
-        })
-        .catch(err=>{
-            console.log(err.message)
-        })
+        createUser(email, password)
+            .then(result => {
+                // const user = result.user;
+                // setUser(user);
+                updateUser({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        const updatedUser = {
+                            ...user,
+                            displayName: name, // Add display name
+                            photoURL: photo,   // Add photo URL
+                        };
+                        console.log(updatedUser)
+                        setUser(updatedUser);
+                        navigate('/');
+                    })
+                    .catch((err) => {
+                        const error = err.code;
+                        const errorMessage = err.message;
+                        console.log(error, errorMessage);
+
+
+                    })
+
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -40,18 +62,18 @@ const Register = () => {
                             </label>
                             <input name='email' type="email" placeholder="email" className="input input-bordered" required />
                         </div>
-                        {/* <div className="form-control">
+                        <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
-                            <input type="name" placeholder="Name" className="input input-bordered" required />
+                            <input name='name' type="name" placeholder="Name" className="input input-bordered" required />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">PhotoURL</span>
                             </label>
-                            <input type="photo" placeholder="PhotoURL" className="input input-bordered" required />
-                        </div> */}
+                            <input name='photo' type="photo" placeholder="PhotoURL" className="input input-bordered" required />
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Password</span>

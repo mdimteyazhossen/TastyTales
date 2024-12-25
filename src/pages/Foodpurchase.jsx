@@ -1,10 +1,12 @@
 import moment from 'moment';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
+import AuthContext from '../context/AuthContext/Authcontext';
 
 const Foodpurchase = () => {
     const data = useLoaderData();
-    const userEmail = "abc@jmail.com"
+    const {user} = useContext(AuthContext);
+    const userEmail = user?.email;
     console.log(data)
     const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity } = data;
     const [buyQuantity, setBuyQuantity] = useState(); 

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
+import AuthContext from '../context/AuthContext/Authcontext';
 
 const Myorders = () => {
-    const email = 'abc@jmail.com';
+    const {user} = useContext(AuthContext);
+    const email = 'a?bc@jmail.com';
     const [orders, setOrders] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:3000/myorders?email=${email}`)
+        fetch(`http://localhost:3000/myorders?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setOrders(data))
     }, [])
