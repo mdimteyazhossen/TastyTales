@@ -42,13 +42,11 @@ const Gallery = () => {
                                     }}
                                 >
                                     <h3>{food.food_name}</h3>
-                                    {/* <p>{food.description}</p> */}
                                 </div>
                             </div>
                         ))
                     }
                 </div>
-                {/* Lightbox */}
                 {open && (
                     <Lightbox
                         open={open}
