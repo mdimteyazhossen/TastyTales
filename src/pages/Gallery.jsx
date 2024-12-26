@@ -7,7 +7,7 @@ const Gallery = () => {
     const [open, setOpen] = useState(false);
     const [currentImg, setCurrentImg] = useState(0);
     useEffect(() => {
-        fetch('http://localhost:3000/foods')
+        fetch('https://assignment-11-server-eta-six.vercel.app/foods')
             .then(res => res.json())
             .then(data => setFoods(data))
     }, [])
@@ -18,8 +18,14 @@ const Gallery = () => {
     }
     return (
         <div>
-            <div>
-                <img src="https://i.ibb.co.com/zHNn0Pc/1694673859-4182.jpg" className='h-[650px] w-full  object-cover' alt="" />
+            <div className="relative h-[600px] md:h=[600px] lg:h-[650px] bg-cover bg-center" style={{ backgroundImage: "url('https://i.ibb.co/zHNn0Pc/1694673859-4182.jpg')" }}>
+                <div className="absolute inset-0 bg-black opacity-50"></div>
+                <div className="absolute inset-0 flex items-center justify-center text-center text-white p-6">
+                    <div>
+                        <h1 className="text-5xl font-bold mb-4">Delicious Food Gallery</h1>
+                        <p className="text-lg max-w-3xl mx-auto">Explore the finest selection of mouth-watering dishes from around the world. Our gallery showcases a variety of flavors and culinary delights that are sure to satisfy your taste buds.</p>
+                    </div>
+                </div>
             </div>
             <div>
                 <div className='w-4/5 mx-auto grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-40'>

@@ -23,7 +23,7 @@ const router = createBrowserRouter([
             {
                 path:"/",
                 element:<Home/>,
-                loader:()=> fetch('http://localhost:3000/top6mostpurchased')
+                loader:()=> fetch('https://assignment-11-server-eta-six.vercel.app/top6mostpurchased')
             },
             {
                 path:"addfood",
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
             {
                 path:"singlefood/:id",
                 element:<Singlefood/>,
-                loader:({params})=> fetch(`http://localhost:3000/foods/${params.id}`)
+                loader:({params})=> fetch(`https://assignment-11-server-eta-six.vercel.app/foods/${params.id}`)
             },
             {
                 path:"gallery",
@@ -61,12 +61,12 @@ const router = createBrowserRouter([
             {
                 path:"update/:id",
                 element:<PrivateRoute><Update/></PrivateRoute>,
-                loader:({params})=> fetch(`http://localhost:3000/foods/${params.id}`)
+                loader:({params})=> fetch(`https://assignment-11-server-eta-six.vercel.app/foods/${params.id}`)
             },
             {
                 path:"foodpurchase/:id",
-                element:<PrivateRoute><Foodpurchase/></PrivateRoute>,
-                loader:({params})=> fetch(`http://localhost:3000/foods/${params.id}`)
+                element:<PrivateRoute><Foodpurchase/></PrivateRoute>
+                // loader:({params})=> fetch(`https://assignment-11-server-eta-six.vercel.app/foods/${params.id}`)
             }
         ]
     },

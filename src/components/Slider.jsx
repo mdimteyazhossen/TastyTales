@@ -102,9 +102,9 @@ const Banner = () => {
           }}
         >
           {/* Caption and Description */}
-          <div className="absolute bottom-28 left-20 text-white px-4 sm:px-8 py-2 sm:py-4 w-full">
+          <div className="absolute bottom-20 md:bottom-28 lg:bottom-28 left-0 md:left-20 lg:left-20 text-white px-4 sm:px-8 py-2 sm:py-4 w-full">
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4"
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4"
               initial={{ opacity: 0, x: 2000 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -112,7 +112,7 @@ const Banner = () => {
               {slides[currentSlide].caption}
             </motion.h1>
             <motion.p
-              className="text-xl mb-6"
+              className="text-sm md:text-xl lg:text-xl mb-6"
               initial={{ opacity: 0, y: -300 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
@@ -121,7 +121,7 @@ const Banner = () => {
             </motion.p>
             <motion.button
               onClick={handleButtonClick}
-              className="bg-white text-gray-600 px-6 py-3 rounded-lg text-lg sm:text-xl font-semibold"
+              className="bg-white text-gray-600 px-6 py-3 rounded-lg mg:text-xl lg:text-lg sm:text-xl font-semibold"
               initial={{ scale: 0.9, y: 500 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ duration: 1 }}
@@ -156,7 +156,7 @@ const Banner = () => {
           <div
             key={index}
             className={`w-4 h-4 rounded-full cursor-pointer transition-all duration-300 ${
-              index === currentSlide ? 'bg-gold' : 'bg-gray-500'
+              index === currentSlide ? 'bg-gray-700' : 'bg-gray-500'
             }`}
             onClick={() => setCurrentSlide(index)} // Jump to specific slide on dot click
           ></div>

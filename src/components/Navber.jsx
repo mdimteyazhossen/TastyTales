@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import AuthContext from '../context/AuthContext/Authcontext'
+import { div } from 'framer-motion/client';
+import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Navber = () => {
     const location = useLocation();
@@ -10,13 +13,40 @@ const Navber = () => {
     const [prevScrollPos, setPrevScrollPos] = useState(0); // Track the previous scroll position
     const [isNavVisible, setIsNavVisible] = useState(true)
     const handleSignOut = () => {
-        signOutUser()
-            .then(() => {
-                console.log('successfwijoi')
-            })
-            .catch(error => {
-                console.log('failed to sign out.')
-            })
+        Swal.fire({
+            title: "Are you sure to logout?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                signOutUser()
+                    .then(() => {
+                        toast.success('User Log Out Successfully', {
+                            position: 'top-center'
+                        })
+                    })
+                    .catch(error => {
+                        toast.error(error.message, {
+                            position: 'top-center'
+                        })
+                    })
+            }
+        });
+        // signOutUser()
+        //     .then(() => {
+        //         toast.success('User Log Out Successfully', {
+        //             position: 'top-center'
+        //         })
+        //     })
+        //     .catch(error => {
+        //         toast.error(error.message, {
+        //             position: 'top-center'
+        //         })
+        //     })
     }
     useEffect(() => {
         if (location.pathname === '/') {
@@ -33,6 +63,8 @@ const Navber = () => {
             setNavbarColor(' rgb(75 85 99)');  // Specific color for the login page
         } else if (location.pathname === '/foodpurchase/:id') {
             setNavbarColor(' rgb(75 85 99)');  // Specific color for the login page
+        } else if (location.pathname.includes('/singlefood/')) {
+            setNavbarColor('rgb(75 85 99)');  // Specific color for the single food page
         } else {
             setNavbarColor('');  // Default color for other routes (you can choose any color)
         }
@@ -49,7 +81,7 @@ const Navber = () => {
         <NavLink to='/ordersfood'><li><a>My Orders</a></li></NavLink>
     </>
     const headLink = <>
-        <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' />TastyTales</a></NavLink>
+        <NavLink to='/'><a className="btn btn-ghost text-3xl text-white font-bold"><img src="https://i.ibb.co.com/Cvhkp7C/Screenshot-2024-12-21-230356.png" alt="" className='h-full rounded-full' /><span className='hidden md:block lg:block'>TastyTales</span></a></NavLink>
     </>
     const handleScroll = () => {
         const currentScrollPos = window.scrollY;
@@ -87,63 +119,66 @@ const Navber = () => {
         };
     }, []);
     return (
-        <div className={`navbar flex fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? `bg-gray-600` : 'bg-transparent'} ${!isNavVisible ? 'hidden' : 'block'}`} style={{ backgroundColor: navbarColor }}>
-            <div className="navbar-start">
-                <div className="dropdown">
-                    <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-white"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 6h16M4 12h8m-8 6h16" />
-                        </svg>
+        <div>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss />
+            <div className={`navbar flex fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? `bg-gray-600` : 'bg-transparent'} ${!isNavVisible ? 'hidden' : 'block'}`} style={{ backgroundColor: navbarColor }}>
+                <div className="navbar-start">
+                    <div className="dropdown">
+                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul
+                            tabIndex={0}
+                            className="menu menu-sm dropdown-content bg-gray-600 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                            {links}
+                        </ul>
                     </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-gray-600 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    {headLink}
+                </div>
+                <div className="navbar-center hidden lg:flex">
+                    <ul className="menu menu-horizontal px-1">
                         {links}
                     </ul>
                 </div>
-                {headLink}
-            </div>
-            <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
-                    {links}
-                </ul>
-            </div>
-            <div className="navbar-end">
-                {user ?
-                    <>
-                        <div className="dropdown dropdown-bottom dropdown-end">
-                            <div tabIndex={0} role="button" className=" m-1">
-                                <div className="avatar">
-                                    <div className=" ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
-                                        <img src={user?.photoURL} />
+                <div className="navbar-end">
+                    {user ?
+                        <>
+                            <div className="dropdown dropdown-bottom dropdown-end">
+                                <div tabIndex={0} role="button" className=" m-1">
+                                    <div className="avatar">
+                                        <div className=" ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
+                                            <img src={user?.photoURL} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                {profileLinks}
-                            </ul>
-                        </div>
-                        <a className="btn text-lg text-white bg-gray-600 m-2" onClick={handleSignOut}>Logout</a></>
-                    :
-                    <>
-                        <div className="avatar">
-                            <div className=" ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
-                                <img src="https://i.ibb.co.com/WB9SWS5/istockphoto-1300845620-612x612.jpg" />
+                                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                    {profileLinks}
+                                </ul>
                             </div>
-                        </div>
-                        <Link to='/login' className="btn text-lg text-white bg-gray-600 m-2">LogIn</Link>
-                    </>
-                }
+                            <a className="btn text-lg text-white bg-gray-600 m-2" onClick={handleSignOut}>Logout</a></>
+                        :
+                        <>
+                            <div className="avatar">
+                                <div className=" ring-offset-base-100 w-14 rounded-full ring ring-offset-2">
+                                    <img src="https://i.ibb.co.com/WB9SWS5/istockphoto-1300845620-612x612.jpg" />
+                                </div>
+                            </div>
+                            <Link to='/login' className="btn text-lg text-white bg-gray-600 m-2">LogIn</Link>
+                        </>
+                    }
+                </div>
             </div>
         </div>
     )

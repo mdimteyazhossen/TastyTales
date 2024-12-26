@@ -2,16 +2,26 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Update from '../components/Update';
 import AuthContext from '../context/AuthContext/Authcontext';
+import axios from 'axios';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const Myfoodpage = () => {
     const { user } = useContext(AuthContext);
     // const email = 'mahi@gmail.com';
     const [myFoods, setMyFoods] = useState([]);
+    const axiosSecure = useAxiosSecure();
     useEffect(() => {
-        fetch(`http://localhost:3000/AddingFoods?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => setMyFoods(data))
-    }, [])
+        // fetch(`https://assignment-11-server-eta-six.vercel.app/AddingFoods?email=${user?.email}`)
+        //     .then(res => res.json())
+        //     .then(data => setMyFoods(data))
+        // axios.get(`https://assignment-11-server-eta-six.vercel.app/AddingFoods?email=${user?.email}`,{
+        //     withCredentials:true
+        // })
+        // .then(res=> setMyFoods(res.data))
+        axiosSecure.get(`/AddingFoods?email=${user?.email}`)
+        .then(res => setMyFoods(res.data))
+    }, [user.email])
+
     // console.log(myFoods.length)
     return (
         <div className="overflow-x-auto my-40">

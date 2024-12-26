@@ -1,33 +1,52 @@
 import moment from 'moment';
-import React, { useContext, useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 import AuthContext from '../context/AuthContext/Authcontext';
 import Lottie from 'lottie-react';
-import purchaseLottie from './../assets/lottie/purchaseLottie.json'
+import purchaseLottie from './../assets/lottie/purchaseLottie.json';
+import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Foodpurchase = () => {
-    const data = useLoaderData();
     const { user } = useContext(AuthContext);
+    const [data, sedata] = useState([]);
+    const axiosSecure = useAxiosSecure();
+    const { id } = useParams();
+
+    useEffect(() => {
+        axiosSecure.get(`/foodspurchase/${id}`)
+            .then(res => sedata(res.data));
+    }, [user.email]);
+
     const userEmail = user?.email;
-    // console.log(user.displayName)
-    const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity,purchase } = data;
+    const { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity, purchase } = data;
     const [buyQuantity, setBuyQuantity] = useState();
     const currentDateTime = moment().format('MMMM Do YYYY, h:mm:ss a');
-    const handlePurchase = () => {
+
+    const handlePurchase = (e) => {
+        // Check if the quantity exceeds available stock
+        e.preventDefault();
         if (buyQuantity > quantity) {
-            alert(`sorry ${quantity} item is avialable`)
+            toast.error(`Sorry, only ${quantity} items are available!`); // Display error toast
             return;
         }
+        // Check if the quantity is less than 1
         if (buyQuantity < 1) {
-            alert("You should enter greter than 0")
+            toast.warn("You should enter a quantity greater than 0!"); // Display warning toast
             return;
         }
-        const order = { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity ,purchase};
+        if (buyQuantity == null) {
+            toast.warn("You should enter a quantity greater than 0!"); // Display warning toast
+            return;
+        }
+
+        // Prepare order data
+        const order = { email, description, food_category, food_name, _id, food_image, food_origin, price, quantity, purchase };
         order.quantity = quantity - buyQuantity;
-        order.purchase= purchase+1;
-        console.log(order)
-        //remove quantity
-        fetch(`http://localhost:3000/foods/${_id}`, {
+        order.purchase = purchase + 1;
+
+        // Update the food quantity in the database
+        fetch(`https://assignment-11-server-eta-six.vercel.app/foods/${_id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -37,10 +56,20 @@ const Foodpurchase = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                toast.success('Purchase successful!',{
+                    position:'top-center'
+                }); // Display success toast after updating food quantity
             })
-        // order data
+            .catch(error => {
+                console.error('Error updating food quantity:', error);
+                toast.error('Something went wrong while updating the food item.',{
+                    position:'top-center'
+                }); // Display error toast on failure
+            });
+
+        // Add the order to the orders collection
         const addOrder = { food_name, food_image, price, quantity, currentDateTime, userEmail };
-        fetch('http://localhost:3000/orderfoods', {
+        fetch('https://assignment-11-server-eta-six.vercel.app/orderfoods', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -50,35 +79,23 @@ const Foodpurchase = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                toast.success('Order placed successfully!',{
+                    position:'top-center'
+                }); // Display success toast after placing the order
             })
+            .catch(error => {
+                console.error('Error placing the order:', error);
+                toast.error('Something went wrong while placing your order.',{
+                    position:'top-center'
+                }); // Display error toast on failure
+            });
+    };
 
-    }
     return (
-        // <div className="hero bg-base-200 min-h-screen">
-        //     <div className="hero-content flex-col lg:flex-row">
-        //         <img
-        //             src={food_image}
-        //             className="max-w-sm rounded-lg shadow-2xl" />
-        //         <div>
-        //             <h1 className="text-5xl font-bold">{food_name}</h1>
-        //             <p className="py-2">Price: {price} $ per piece. </p>
-        //             <p className="py-2">Quentity: {quantity} </p>
-        //             <p className="py-2">Buyer Name: Imteyaz </p>
-        //             <p className="py-2">Buyer Email: Imteyaz@gmail.com </p>
-        //             <p className="py-2">Quentity: {quantity > 0 ? quantity : <span className='text-red-600'>Item is not avilable</span>} </p>
-        //             <p>
-        //                 <label>How many pieces you will buy:</label>
-        //                 <input type="number" onChange={(e)=> setBuyQuantity(e.target.value)} placeholder="Enter the number " className="input input-bordered w-full max-w-xs" />
-        //             </p>
-        //             {quantity > 0 ?
-        //                 <button className="btn btn-primary" onClick={handlePurchase}>Purchase</button>
-        //                 :
-        //                 <button className="btn btn-primary" disabled={true}>Purchase</button>
-        //                 }
-        //         </div>
-        //     </div>
-        // </div>
         <div>
+            {/* Toast Container for displaying toast notifications */}
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss />
+
             <div className="relative mb-5 h-[550px] md:h-[450px] lg:h-[600px]">
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center"
@@ -97,7 +114,7 @@ const Foodpurchase = () => {
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
                         <h1 className="text-5xl font-bold text-center">Purchase Now!</h1>
-                        <p className=" text-center">Craving something delicious? Don't wait – order now and enjoy your favorite meals delivered straight to your doorstep! Whether you're in the mood for a savory snack, a hearty meal, or a sweet treat, we've got you covered. With just a few clicks, your next culinary adventure is just a delivery away. Hurry, your cravings won't wait!</p>
+                        <p className="text-center">Craving something delicious? Don't wait – order now and enjoy your favorite meals delivered straight to your doorstep! Whether you're in the mood for a savory snack, a hearty meal, or a sweet treat, we've got you covered. With just a few clicks, your next culinary adventure is just a delivery away. Hurry, your cravings won't wait!</p>
                         <p className="py-6 rounded-2xl">
                             <Lottie animationData={purchaseLottie}></Lottie>
                         </p>
@@ -108,40 +125,39 @@ const Foodpurchase = () => {
                                 <label className="label">
                                     <span className="label-text text-white">Buyer Name</span>
                                 </label>
-                                <input type="name" placeholder="" className="input input-bordered" value={user.displayName} required />
+                                <input type="name" placeholder="" className="input input-bordered" value={user.displayName || ""} required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-white">Buyer Email</span>
                                 </label>
-                                <input type="email" placeholder="email" className="input input-bordered" value={user.email} required />
+                                <input type="email" placeholder="email" className="input input-bordered" value={user.email || ""} required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-white">Food Name</span>
                                 </label>
-                                <input type="" placeholder="email" className="input input-bordered" value={food_name} required />
+                                <input type="text" placeholder="Food Name" className="input input-bordered" value={food_name || ""} required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-white">Price (per piece)</span>
                                 </label>
-                                <input type="" placeholder="email" className="input input-bordered" value={`${price} $`} required />
+                                <input type="text" placeholder="Price" className="input input-bordered" value={`${price || ""} $`} required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-white">Quantity</span>
                                 </label>
-                                <input type="" placeholder="email" className="input input-bordered" value={quantity > 0 ? quantity : "Item is not avilable"} required />
+                                <input type="text" placeholder="Quantity" className="input input-bordered" value={quantity > 0 ? quantity : "Item is not available"} required />
                             </div>
                             <div className="form-control">
                                 <label className='text-white'>How many pieces you will buy:</label>
                                 <input type="number" onChange={(e) => setBuyQuantity(e.target.value)} placeholder="Enter the number " className="input input-bordered w-full max-w-xs" />
-
                             </div>
                             <div className="form-control mt-6">
                                 {quantity > 0 ?
-                                    <button className="btn bg-white text-gray-600 text-xl font-bold " onClick={handlePurchase}>Purchase</button>
+                                    <button className="btn bg-white text-gray-600 text-xl font-bold" type='submit' onClick={handlePurchase}>Purchase</button>
                                     :
                                     <button className="btn bg-white text-gray-600 text-xl font-bold" disabled={true}>Purchase</button>
                                 }
@@ -151,7 +167,7 @@ const Foodpurchase = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Foodpurchase
+export default Foodpurchase;

@@ -5,10 +5,10 @@ const AllFood = () => {
     const [foods, setFoods] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     useEffect(() => {
-        fetch('http://localhost:3000/foods')
+        fetch('https://assignment-11-server-eta-six.vercel.app/foods')
             .then(res => res.json())
             .then(data => setFoods(data))
-            .catch(err => console.log(err));
+            .catch(err => err.message);
     }, []);
     const filteredFoods = foods.filter(food =>
         food.food_name.toLowerCase().includes(searchQuery.toLowerCase())

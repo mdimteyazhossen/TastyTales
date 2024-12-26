@@ -1,20 +1,30 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import AuthContext from '../context/AuthContext/Authcontext';
+import axios from 'axios';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Myorders = () => {
-    const {user} = useContext(AuthContext);
-    const email = 'a?bc@jmail.com';
+    const { user } = useContext(AuthContext);
     const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        fetch(`http://localhost:3000/myorders?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => setOrders(data))
-    }, [])
+    const axiosSecure = useAxiosSecure();
 
-    //delete food
+    useEffect(() => {
+        // Fetch orders from the server
+        axiosSecure.get(`/myorders?email=${user?.email}`)
+            .then(res => setOrders(res.data))
+            .catch(error => {
+                toast.error("Error fetching orders!",{
+                    position:'top-center'
+                });
+                // console.error(error);
+            });
+    }, [user?.email]); // Make sure to refetch when user's email changes
+
+    // Delete order
     const handleDelete = _id => {
-        console.log(_id)
+        // Show confirmation alert
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -25,67 +35,71 @@ const Myorders = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/orderfoods/${_id}`, {
+                // Call API to delete the order
+                fetch(`https://assignment-11-server-eta-six.vercel.app/orderfoods/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
                         if (data.deletedCount > 0) {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your Product has been deleted.",
-                                icon: "success"
+                            // Successfully deleted, show success toast
+                            toast.success('Order deleted successfully!',{
+                                position:'top-center'
                             });
-                            setProducts(prevProducts => prevProducts.filter(item => item._id !== _id));
+                            // Update the state by removing the deleted order
+                            setOrders(prevOrders => prevOrders.filter(order => order._id !== _id));
+                        } else {
+                            // Failed to delete, show error toast
+                            toast.error('Failed to delete the order.',{
+                                position:'top-center'
+                            });
                         }
                     })
+                    .catch(error => {
+                        toast.error('Something went wrong while deleting the order.',{
+                            position:'top-center'
+                        });
+                        console.error(error);
+                    });
             }
         });
-    }
+    };
+
     return (
+        <div>
+            {/* ToastContainer to show the toast notifications */}
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover draggable pauseOnFocusLoss />
+
             <div className='my-20 lg:w-[90%] mx-auto pt-10'>
-                {/* {orders.map((order, index) => (
-                    <div className="card card-side bg-base-100 shadow-xl" key={index}>
-                        <figure>
-                            <img
-                                src={order.food_image}
-                                alt="Movie" />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{order.food_name}</h2>
-                            <p>{order.price}</p>
-                            <p>{order.quantity}</p>
-                            <p>{order.currentDateTime}</p>
-                            <div className="card-actions justify-end">
-                                <button onClick={() => handleDelete(order._id)} className="btn bg-red-600">X</button>
+                <h1 className='text-3xl font-bold text-gray-600'>Your Orders:</h1>
+                {orders.length === 0 ? (
+                    <p>No orders found.</p>
+                ) : (
+                    orders.map((order) => (
+                        <div key={order._id} className='p-2 lg:p-20'>
+                            <div className="card bg-white lg:card-side shadow-xl p-5 border-gray-600 border-4">
+                                <figure>
+                                    <img
+                                        src={order.food_image}
+                                        alt="Food" className='w-[100%] md:w-[50%] lg:w-[100%] h-[250px] mx-auto rounded-xl' />
+                                </figure>
+                                <div className="card-body text-gray-600">
+                                    <h2 className="card-title">{order.food_name}</h2>
+                                    <p>Price: <span>{order.price}$ per piece</span></p>
+                                    <p>Buying Time: <span>{order.currentDateTime}</span></p>
+                                </div>
+                                <div className='items-center my-auto lg:grid gap-2 lg:gap-5 mx-auto'>
+                                    <button onClick={() => handleDelete(order._id)} className="btn bg-red-600 text-white">
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))} */}
-                <h1 className='text-3xl font-bold text-gray-600'>Your Order:</h1>
-                {orders.map((order, index) => (
-                    <div key={order._id} className=' p-2 lg:p-20'>
-                        <div className="card bg-white lg:card-side  shadow-xl p-5 border-gray-600 border-4">
-                            <figure>
-                                <img
-                                    src={order.food_image}
-                                    alt="Album" className='w-[100%] md:w-[50%] lg:w-[100%] h-[250px] mx-auto rounded-xl' />
-                            </figure>
-                            <div className="card-body text-gray-600">
-                                <h2 className="card-title">{order.food_name}</h2>
-                                <p>Price: <span>{order.price}$ per piece</span></p>
-                                <p>Buying Time: <span>{order.currentDateTime}</span></p>
-                            </div>
-                            <div className='items-center my-auto lg:grid gap-2 lg:gap-5 mx-auto'>
-                            <button onClick={() => handleDelete(order._id)} className="btn bg-red-600">X</button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-
+                    ))
+                )}
             </div>
-        )
-    }
+        </div>
+    );
+};
 
-    export default Myorders
+export default Myorders;
