@@ -56,14 +56,14 @@ const Foodpurchase = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                toast.success('Purchase successful!',{
-                    position:'top-center'
+                toast.success('Purchase successful!', {
+                    position: 'top-center'
                 }); // Display success toast after updating food quantity
             })
             .catch(error => {
                 console.error('Error updating food quantity:', error);
-                toast.error('Something went wrong while updating the food item.',{
-                    position:'top-center'
+                toast.error('Something went wrong while updating the food item.', {
+                    position: 'top-center'
                 }); // Display error toast on failure
             });
 
@@ -79,14 +79,14 @@ const Foodpurchase = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                toast.success('Order placed successfully!',{
-                    position:'top-center'
+                toast.success('Order placed successfully!', {
+                    position: 'top-center'
                 }); // Display success toast after placing the order
             })
             .catch(error => {
                 console.error('Error placing the order:', error);
-                toast.error('Something went wrong while placing your order.',{
-                    position:'top-center'
+                toast.error('Something went wrong while placing your order.', {
+                    position: 'top-center'
                 }); // Display error toast on failure
             });
     };
@@ -154,6 +154,10 @@ const Foodpurchase = () => {
                             <div className="form-control">
                                 <label className='text-white'>How many pieces you will buy:</label>
                                 <input type="number" onChange={(e) => setBuyQuantity(e.target.value)} placeholder="Enter the number " className="input input-bordered w-full max-w-xs" />
+                            </div>
+                            <div className="form-control">
+                                <label className='text-white'>Buying Time:</label>
+                                <p className='text-white font-bold'> {moment().format('MMMM Do YYYY, h:mm:ss a')}</p>
                             </div>
                             <div className="form-control mt-6">
                                 {quantity > 0 ?

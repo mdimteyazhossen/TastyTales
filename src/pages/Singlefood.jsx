@@ -4,7 +4,7 @@ import { Link, useLoaderData } from 'react-router-dom'
 const Singlefood = () => {
   const data = useLoaderData();
   console.log(data)
-  const { description, food_category, food_name, _id, food_image, food_origin, price, quantity } = data;
+  const { description, food_category, food_name, _id, food_image, food_origin, price, quantity , purchase} = data;
   //   description
   // : 
   // ingredients
@@ -122,6 +122,8 @@ const Singlefood = () => {
               {/* <p className='bg-green-600 text-base-100 text-xl lg:text-2xl font-bold text-center p-2 px-5 rounded-3xl'>{category}</p> */}
               <p className='text-xl lg:text-2xl'>Rating: <span className='bg-gray-600 text-base-100 text-xl lg:text-2xl font-bold text-center p-2 px-5 rounded-3xl'>4.5</span></p>
               <p className='text-xl lg:text-2xl'>Quantity: <span className='font-bold'>{quantity}</span> Piece is Available</p>
+            {/* </div> */}
+              <p className='text-xl lg:text-2xl'>Today Sell: <span className='font-bold'>{purchase}</span> Piece is Already selled.</p>
             {/* </div> */}
         
         </div>

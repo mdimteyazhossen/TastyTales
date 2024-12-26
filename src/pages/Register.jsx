@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import AuthContext from '../context/AuthContext/Authcontext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import registerLottie from './../assets/lottie/RegisterLottie.json'
 import Lottie from 'lottie-react';
 import { div } from 'framer-motion/client';
 import { toast, ToastContainer } from 'react-toastify';
 
 const Register = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const { createUser, updateUser, signInWithgoogle, setUser } = useContext(AuthContext);
     const handleRegister = e => {

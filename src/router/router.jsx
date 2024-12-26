@@ -15,11 +15,13 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "../layouts/PrivateRoute";
 import { Helmet } from "react-helmet";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
+        errorElement:<NotFound/>,
         children: [
             {
                 path: "/",

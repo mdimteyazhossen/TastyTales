@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext/Authcontext';
 import Lottie from 'lottie-react';
 import loginanimation from './../assets/lottie/LoginAnimation.json';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
 const Login = () => {
     const { SignInUser, signInWithgoogle } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const location = useLocation();
     // Handle user login
     const handleLogin = (e) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const Login = () => {
                     position: 'top-center'
                 });
                 setTimeout(() => {
-                    navigate('/');
+                    navigate(location?.state ? location.state : '/');
                 }, 2000);
             })
             .catch((err) => {
@@ -44,7 +44,7 @@ const Login = () => {
                     position: 'top-center'
                 });
                 setTimeout(() => {
-                    navigate('/');
+                    navigate(location?.state ? location.state : '/');
                 }, 2000);
             })
             .catch((err) => {
@@ -90,7 +90,7 @@ const Login = () => {
                                 <input name="password" type="password" placeholder="password" className="input input-bordered" required />
                                 <label className="label">
                                     New to this website? Please{' '}
-                                    <Link to="/register" className="text-red-600 font-bold mr-[50px]">
+                                    <Link  to="/register" className="text-red-600 font-bold mr-[50px]">
                                         Register
                                     </Link>
                                 </label>
